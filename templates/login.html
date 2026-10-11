@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login — SHG Smart Assistant</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-body">
+<div class="auth-box">
+  <h1>🤝 SHG Smart Assistant</h1>
+  <p class="sub">Thanjavur Region — Tamil • English • Tanglish</p>
+  <h2>Login / உள்நுழை</h2>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<p class="flash {{cat}}">{{m}}</p>{% endfor %}
+  {% endwith %}
+
+  <form method="POST">
+    <input name="username" placeholder="Username / பயனர் பெயர்" required>
+    <input name="password" type="password" placeholder="Password / கடவுச்சொல்" required>
+    <button type="submit">Login</button>
+  </form>
+  <p>No account? <a href="{{ url_for('register') }}">Register / பதிவு செய்</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHG Smart Assistant — Thanjavur</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <h2>🤝 SHG Assistant</h2>
+    <p class="sub">Thanjavur Region</p>
+
+    <button id="newChatBtn">+ New Chat</button>
+
+    <div class="lang-switch">
+      <label>Language:</label>
+      <select id="langSelect">
+        <option value="tanglish" {% if lang=='tanglish' %}selected{% endif %}>Tanglish</option>
+        <option value="tamil" {% if lang=='tamil' %}selected{% endif %}>தமிழ்</option>
+        <option value="english" {% if lang=='english' %}selected{% endif %}>English</option>
+      </select>
+    </div>
+
+    <ul id="convList">
+      {% for c in convos %}
+        <li data-cid="{{ c.id }}" class="{% if c.id == current_cid %}active{% endif %}">
+          <span class="conv-title">{{ c.title }}</span>
+          <button class="del-btn" data-cid="{{ c.id }}">🗑</button>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="user-box">
+      <span>👤 {{ session.username }}</span>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Chat -->
+  <main class="chat">
+    <header class="chat-header">
+      <button id="menuBtn" class="menu-btn">☰</button>
+      <h3>SHG Smart Assistant — Thanjavur</h3>
+    </header>
+
+    <div id="messages" class="messages">
+      {% if not messages %}
+        <div class="welcome">
+          <h1>வணக்கம் / Vanakkam / Hello 🙏</h1>
+          <p>I'm your SHG Smart Assistant for <b>Thanjavur</b>.<br>
+             Ask me in <b>Tamil, English, or Tanglish</b>!</p>
+          <div class="chips">
+            <button class="chip">SHG எப்படி start பண்றது?</button>
+            <button class="chip">Mudra Yojana pathi sollu</button>
+            <button class="chip">Thanjavur business ideas</button>
+            <button class="chip">DRDA office contact</button>
+            <button class="chip">What is Python?</button>
+            <button class="chip">Kumbakonam SHG schemes</button>
+          </div>
+        </div>
+      {% endif %}
+      {% for m in messages %}
+        <div class="msg {{ m.sender }}">
+          <div class="bubble">{{ m.content }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <form id="chatForm" class="input-bar">
+      <input type="text" id="userInput"
+             placeholder="Type in Tamil / English / Tanglish..."
+             autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+</div>
+
+<script>
+  const CURRENT_CID = {{ current_cid or 'null' }};
+  let USER_LANG = "{{ lang }}";
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
